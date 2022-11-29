@@ -5,6 +5,8 @@ from dotenv import load_dotenv
 from flask import Flask
 from slackeventsapi import SlackEventAdapter
 
+
+#Clients Dictionary
 clients = {
     "amosweislib" : ["AMFRSH", "SOWIT"]
 }
@@ -24,6 +26,7 @@ client = slack.WebClient(token=os.environ['SLACK_TOKEN'])
 
 BOT_ID = client.api_call("auth.test")['user_id']
 
+# Create an event listener for "message" events and message a mention
 @slack_event_adapter.on('message')
 def message(payload):
     event = payload.get('event', {})

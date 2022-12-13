@@ -8,12 +8,12 @@ from slackeventsapi import SlackEventAdapter
 
 #Clients Dictionary
 clients = {
-    "amosweislib" : ["AMFRSH", "SOWIT"]
+    "amosweislib" : ["AMFRSH", "SOWIT"],
 }
 
 # Load environment variables
 env_path = Path('.') / '.env'
-load_dotenv(dotenv_path=env_path)
+loa d_dotenv(dotenv_path=env_path)
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -33,8 +33,10 @@ def message(payload):
     channel_id = event.get('channel')
     user_id = event.get('user')
     text = event.get('text')
-    if BOT_ID != user_id and any(cust in text for cust in clients['amosweislib']):
-        client.chat_postMessage(channel=channel_id, text="<@amosweislib>")
+    if BOT_ID != user_id:
+        for owner in clients.keys():
+            any(cust in text for cust in clients[owner]):
+            client.chat_postMessage(channel=channel_id, text="<@"+owner+">")
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False, host='0.0.0.0', port=5000)
